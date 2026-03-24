@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Yaira 💌</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #fdf6e3;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dark: #8a6d2f;
+    --rose: #c0506e;
+    --rose-light: #e8a0b4;
+    --ink: #2c1a0e;
+    --shadow: rgba(44, 26, 14, 0.3);
+  }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 30% 20%, #1a0a2e 0%, #0d0618 40%, #050208 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ══════════════ PARTÍCULAS DE FONDO ══════════════ */
+  .bg-particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-particles span {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+    opacity: 0;
+  }
+  @keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: var(--o); transform: scale(1.2); }
+  }
+
+  /* ══════════════ SOBRE ══════════════ */
+  #envelope-scene {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .envelope-hint {
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    letter-spacing: 0.1em;
+    animation: pulse-hint 2s ease-in-out infinite;
+    opacity: 0.8;
+  }
+  @keyframes pulse-hint {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .envelope-wrap {
+    perspective: 1200px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .envelope {
+    width: 340px;
+    height: 240px;
+    position: relative;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 20px 60px rgba(201,168,76,0.3));
+    transition: filter 0.3s;
+  }
+  .envelope:hover { filter: drop-shadow(0 25px 80px rgba(201,168,76,0.5)); }
+
+  /* Cuerpo del sobre */
+  .env-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #f5e6c8 0%, #ede0b8 40%, #e8d5a0 100%);
+    border-radius: 4px 4px 8px 8px;
+    overflow: hidden;
+    border: 1px solid var(--gold);
+    box-shadow: inset 0 0 30px rgba(201,168,76,0.15);
+  }
+
+  /* Triángulos laterales internos */
+  .env-left-fold {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    border-top: 120px solid transparent;
+    border-bottom: 120px solid transparent;
+    border-left: 100px solid #e0ccaa;
+  }
+  .env-right-fold {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 0;
+    border-top: 120px solid transparent;
+    border-bottom: 120px solid transparent;
+    border-right: 100px solid #e0ccaa;
+  }
+  .env-bottom-fold {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 0;
+    border-left: 170px solid transparent;
+    border-right: 170px solid transparent;
+    border-bottom: 130px solid #d4bc8a;
+  }
+
+  /* Sello decorativo */
+  .env-seal {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--rose) 30%, var(--gold-dark) 100%);
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 12px rgba(192,80,110,0.4);
+    z-index: 5;
+  }
+
+  /* Tapa del sobre */
+  .env-flap {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    border-left: 170px solid transparent;
+    border-right: 170px solid transparent;
+    border-top: 130px solid #c9a84c;
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    z-index: 20;
+    transition: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  }
+  .env-flap::after {
+    content: '';
+    position: absolute;
+    top: -125px;
+    left: -162px;
+    width: 0;
+    border-left: 162px solid transparent;
+    border-right: 162px solid transparent;
+    border-top: 122px solid #e8c97a;
+  }
+
+  /* Patrón interior sobre */
+  .env-inner-pattern {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(201,168,76,0.06) 8px,
+      rgba(201,168,76,0.06) 9px
+    );
+  }
+
+  /* Carta mini visible dentro del sobre */
+  .env-letter-peek {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100px;
+    background: var(--cream);
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 3;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .env-letter-peek span {
+    font-size: 0.6rem;
+    color: var(--ink);
+    font-style: italic;
+    opacity: 0.5;
+    text-align: center;
+    padding: 8px;
+    line-height: 1.4;
+  }
+
+  /* ── ANIMACIÓN DE APERTURA ── */
+  .envelope-wrap.opening .env-flap {
+    animation: open-flap 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .envelope-wrap.opening .env-letter-peek {
+    animation: rise-letter 0.8s 0.6s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes open-flap {
+    0% { transform: rotateX(0deg); }
+    100% { transform: rotateX(-180deg); }
+  }
+  @keyframes rise-letter {
+    0% { opacity: 0; transform: translateX(-50%) translateY(30px); }
+    100% { opacity: 1; transform: translateX(-50%) translateY(-20px); }
+  }
+
+  /* Sobre desapareciendo */
+  .envelope-wrap.vanish {
+    animation: envelope-vanish 0.7s 1.4s ease-in forwards;
+  }
+  @keyframes envelope-vanish {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.3) translateY(80px); pointer-events: none; }
+  }
+
+  /* ══════════════ CARTA ══════════════ */
+  #letter-scene {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    overflow-y: auto;
+    background: radial-gradient(ellipse at center, #1a0a2e 0%, #060110 100%);
+    padding: 40px 20px;
+  }
+
+  .letter-container {
+    max-width: 680px;
+    margin: 0 auto;
+    animation: letter-appear 1.2s ease-out forwards;
+    opacity: 0;
+  }
+  @keyframes letter-appear {
+    0% { opacity: 0; transform: translateY(60px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .letter-paper {
+    background: linear-gradient(160deg, #fdf8ef 0%, #faf1e0 50%, #f7ead4 100%);
+    border-radius: 3px 3px 6px 6px;
+    padding: 60px 64px 70px;
+    position: relative;
+    box-shadow:
+      0 4px 6px rgba(0,0,0,0.07),
+      0 10px 40px rgba(0,0,0,0.15),
+      0 30px 80px rgba(0,0,0,0.2),
+      inset 0 0 0 1px rgba(201,168,76,0.2);
+  }
+
+  /* Líneas de papel */
+  .letter-paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      transparent,
+      transparent 28px,
+      rgba(201,168,76,0.1) 28px,
+      rgba(201,168,76,0.1) 29px
+    );
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* Borde izquierdo rojo */
+  .letter-paper::after {
+    content: '';
+    position: absolute;
+    left: 52px; top: 0; bottom: 0;
+    width: 1px;
+    background: rgba(192,80,110,0.25);
+    pointer-events: none;
+  }
+
+  .letter-header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .letter-deco-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+  }
+  .letter-deco-top .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .letter-deco-top span { font-size: 18px; }
+
+  .letter-name {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.2rem;
+    color: var(--rose);
+    text-shadow: 0 2px 12px rgba(192,80,110,0.2);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .letter-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--gold-dark);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    line-height: 1.95;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .letter-body p {
+    margin-bottom: 1.4em;
+    text-indent: 2em;
+  }
+  .letter-body p:first-child { text-indent: 0; }
+
+  .letter-body .highlight {
+    font-style: italic;
+    color: #7a3a25;
+  }
+
+  .letter-footer {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+  .letter-sign {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: var(--rose);
+  }
+  .letter-date {
+    font-size: 0.75rem;
+    color: var(--gold-dark);
+    font-style: italic;
+    letter-spacing: 0.1em;
+  }
+
+  /* Rosa y emoji */
+  .letter-ending {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fade-in-up 1s 1.5s ease-out forwards;
+  }
+  @keyframes fade-in-up {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .heart-emoji {
+    font-size: 2rem;
+    animation: heartbeat 1.4s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    14% { transform: scale(1.2); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.15); }
+    70% { transform: scale(1); }
+  }
+
+  .rose-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 3.5rem;
+    transition: transform 0.3s, filter 0.3s;
+    filter: drop-shadow(0 4px 12px rgba(192,80,110,0.4));
+    animation: rose-float 3s ease-in-out infinite;
+    position: relative;
+  }
+  .rose-btn:hover {
+    transform: scale(1.15) rotate(-5deg);
+    filter: drop-shadow(0 8px 20px rgba(192,80,110,0.7));
+  }
+  @keyframes rose-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(3deg); }
+  }
+
+  .rose-hint {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--rose-light);
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+
+  /* ══════════════ GALAXIA ══════════════ */
+  #galaxy-scene {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000005;
+    overflow: hidden;
+  }
+
+  /* Canvas de estrellas */
+  #starfield {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* Nebulosa */
+  .nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .nebula-1 {
+    width: 700px; height: 500px;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(120,20,80,0.35) 0%, transparent 70%);
+    animation: nebula-pulse 8s ease-in-out infinite alternate;
+  }
+  .nebula-2 {
+    width: 500px; height: 400px;
+    left: 30%; top: 40%;
+    background: radial-gradient(ellipse, rgba(20,30,120,0.3) 0%, transparent 70%);
+    animation: nebula-pulse 10s 2s ease-in-out infinite alternate;
+  }
+  .nebula-3 {
+    width: 400px; height: 350px;
+    right: 20%; bottom: 30%;
+    background: radial-gradient(ellipse, rgba(80,10,100,0.25) 0%, transparent 70%);
+    animation: nebula-pulse 7s 4s ease-in-out infinite alternate;
+  }
+  @keyframes nebula-pulse {
+    0% { transform: scale(1) translate(-50%,-50%); opacity: 0.6; }
+    100% { transform: scale(1.15) translate(-50%,-50%); opacity: 1; }
+  }
+  .nebula-2, .nebula-3 { /* override transform for these */ }
+  .nebula-2 { animation: nebula-pulse2 10s 2s ease-in-out infinite alternate; }
+  .nebula-3 { animation: nebula-pulse3 7s 4s ease-in-out infinite alternate; }
+  @keyframes nebula-pulse2 {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.2); opacity: 0.9; }
+  }
+  @keyframes nebula-pulse3 {
+    0% { transform: scale(1); opacity: 0.4; }
+    100% { transform: scale(1.1); opacity: 0.8; }
+  }
+
+  /* Centro galáctico */
+  .galaxy-core {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+  }
+  .galaxy-core-glow {
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,220,150,0.9) 0%, rgba(255,160,100,0.6) 25%, rgba(200,80,120,0.3) 55%, transparent 70%);
+    animation: core-pulse 4s ease-in-out infinite;
+    position: relative;
+  }
+  .galaxy-core-glow::after {
+    content: '💫';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    animation: core-spin 20s linear infinite;
+  }
+  @keyframes core-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.12); opacity: 1; }
+  }
+  @keyframes core-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  /* Brazos espirales */
+  .spiral-arm {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform-origin: 0 0;
+    pointer-events: none;
+  }
+
+  /* Órbitas */
+  .orbit-ring {
+    position: absolute;
+    left: 50%; top: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  /* Palabras orbitando */
+  .word-orbit {
+    position: absolute;
+    left: 50%; top: 50%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .orbit-word {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    pointer-events: all;
+    user-select: none;
+    transition: transform 0.2s, filter 0.2s;
+    will-change: transform;
+  }
+
+  .orbit-word span {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    color: #fff;
+    text-shadow:
+      0 0 8px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid currentColor;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s;
+    letter-spacing: 0.05em;
+  }
+
+  .orbit-word:hover span {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+  }
+
+  /* Tooltip de significado */
+  .word-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    background: rgba(10, 2, 20, 0.95);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 18px 22px;
+    max-width: 280px;
+    box-shadow: 0 0 30px rgba(201,168,76,0.3), 0 20px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+  }
+  .word-tooltip.active { display: block; animation: tooltip-in 0.3s ease-out; }
+  @keyframes tooltip-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .tooltip-word {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .tooltip-meaning {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .tooltip-emoji {
+    font-size: 1.4rem;
+    margin-right: 6px;
+  }
+
+  /* Botón volver */
+  .back-btn {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 300;
+    background: rgba(10,2,20,0.8);
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
+    display: none;
+  }
+  .back-btn:hover {
+    background: rgba(201,168,76,0.2);
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+
+  /* ══ NOTA DEL CENTRO ══ */
+  #center-note-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+  }
+  #center-note-modal.active { display: flex; }
+
+  .center-note-card {
+    position: relative;
+    max-width: 420px;
+    width: 90%;
+    background: linear-gradient(145deg, #0d0520 0%, #1a0535 60%, #0a0118 100%);
+    border: 1px solid var(--gold);
+    border-radius: 18px;
+    padding: 44px 40px 40px;
+    text-align: center;
+    box-shadow:
+      0 0 40px rgba(201,168,76,0.25),
+      0 0 80px rgba(192,80,110,0.15),
+      0 30px 80px rgba(0,0,0,0.6);
+    animation: note-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes note-pop {
+    0% { opacity:0; transform: scale(0.5) rotate(-4deg); }
+    100% { opacity:1; transform: scale(1) rotate(0deg); }
+  }
+
+  .note-close {
+    position: absolute;
+    top: 14px; right: 18px;
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 1.3rem;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    line-height: 1;
+  }
+  .note-close:hover { opacity: 1; }
+
+  .note-star-deco {
+    font-size: 2.8rem;
+    margin-bottom: 14px;
+    display: block;
+    animation: star-spin 8s linear infinite;
+  }
+  @keyframes star-spin {
+    from { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.15); }
+    to { transform: rotate(360deg) scale(1); }
+  }
+
+  .note-title {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: var(--gold-light);
+    margin-bottom: 18px;
+    text-shadow: 0 0 20px rgba(201,168,76,0.4);
+  }
+
+  .note-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: rgba(255,255,255,0.88);
+    font-style: italic;
+  }
+
+  .note-text .note-highlight {
+    color: var(--rose-light);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .note-hearts {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    letter-spacing: 6px;
+    animation: hearts-pulse 2s ease-in-out infinite;
+  }
+  @keyframes hearts-pulse {
+    0%,100% { opacity:0.6; transform:scale(1); }
+    50% { opacity:1; transform:scale(1.08); }
+  }
+
+  .note-deco-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 16px auto;
+  }
+
+  /* Shooting stars */
+  .shooting-star {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, white, transparent);
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  /* Partículas flotando en galaxia */
+  .galaxy-particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float-particle var(--dur) ease-in-out infinite alternate;
+    opacity: var(--op);
+  }
+  @keyframes float-particle {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(var(--tx), var(--ty)); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Partículas de fondo -->
+<div class="bg-particles" id="bgParticles"></div>
+
+<!-- ══════ ESCENA: SOBRE ══════ -->
+<div id="envelope-scene">
+  <p class="envelope-hint">✦ Toca el sobre para abrir ✦</p>
+  <div class="envelope-wrap" id="envelopeWrap" onclick="openEnvelope()">
+    <div class="envelope">
+      <div class="env-body">
+        <div class="env-inner-pattern"></div>
+        <div class="env-left-fold"></div>
+        <div class="env-right-fold"></div>
+        <div class="env-bottom-fold"></div>
+        <div class="env-seal">💌</div>
+        <div class="env-letter-peek">
+          <span>Yaira...</span>
+        </div>
+      </div>
+      <div class="env-flap" id="envFlap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ESCENA: CARTA ══════ -->
+<div id="letter-scene">
+  <div class="letter-container">
+    <div class="letter-paper">
+      <div class="letter-header">
+        <div class="letter-deco-top">
+          <div class="line"></div>
+          <span>✦</span>
+          <div class="line"></div>
+        </div>
+        <div class="letter-name">Yaira</div>
+        <div class="letter-subtitle">Para ti</div>
+      </div>
+
+      <div class="letter-body">
+        <p>No te prometo nada perfecto, ni un mundo sin problemas, pero sí quiero que te quede algo claro desde el principio: <span class="highlight">no llegué a tu vida para hacerte daño.</span></p>
+
+        <p>Llegué con intención… con una de esas que no se dicen mucho, pero se sienten. Con ganas de quedarme de una forma bonita, de hacerte bien, de convertirme en ese espacio donde puedas bajar la guardia sin miedo… donde puedas ser tú, sin filtros.</p>
+
+        <p>En tus batallas, yo siempre voy a ser tu escudo. No para quitarte la fuerza, sino para que nunca olvides que no estás sola. En tus problemas, quiero ser quien piense contigo, quien te sostenga cuando todo se te venga encima… porque contigo no se trata de huir, se trata de quedarse.</p>
+
+        <p>En tus desesperos, quiero ser tu calma… esa voz bajita que te diga que respires, que todo va a estar bien… y que lo sientas de verdad. En tus lágrimas, seré tu pañuelo… pero también quiero ser quien te mire a los ojos y, sin decir mucho, logre sacarte una sonrisa.</p>
+
+        <p>Y cuando te sientas perdida, voy a estar ahí… no para imponerte un camino, sino para caminarlo contigo, despacio, a tu ritmo.</p>
+
+        <p><span class="highlight">Y entre todo eso… hay algo más que quiero decirte, sin rodeos:</span></p>
+
+        <p>Espero tener la oportunidad de ser quien convierta tus inseguridades en tus mayores virtudes… de ser quien te mire de una forma tan real, que empieces a verte como realmente eres.</p>
+
+        <p>Quiero ser yo quien tome tu mano… y que en ese simple gesto sientas tranquilidad, sientas paz… pero también algo más, algo que te recorra lento y te haga sonreír sin darte cuenta. Que cuando estés conmigo, no tengas que pensar tanto… solo sentir.</p>
+
+        <p>No vengo a prometerte cosas vacías… vengo con intención, con presencia, con carácter. Aquí hay un hombre que no juega, que no llega a medias… <span class="highlight">que cuando decide estar, está de verdad.</span></p>
+
+        <p>Quiero que cuando pienses en mí, no solo sientas calma… quiero que te provoque… que te intrigue… que te den ganas de quedarte un rato más, de descubrir qué más hay detrás de todo esto que apenas empieza.</p>
+
+        <p>Porque cuidarte no es limitarte… es hacerte sentir libre, pero segura al mismo tiempo. Es mirarte como si fueras única… y que tú lo sientas sin tener que preguntarlo.</p>
+
+        <p>No sé qué vaya a pasar más adelante… pero sí sé algo: si me dejas, voy a hacer que valga la pena. <span class="highlight">Y eso, morena… no es promesa, es decisión.</span></p>
+
+        <p>Ahora dime tú… ¿esto apenas va empezando… o ya te está dando curiosidad saber hasta dónde puedo llegar contigo?</p>
+
+        <p>Porque te soy sincero… yo siento que ese beso no se pide… se va ganando poquito a poco… y no sé, pero algo me dice que estoy cada vez más cerca de probar esos hermosos labios tuyos…</p>
+
+        <p><span class="highlight">¿Será que me regalas ese beso… o me toca seguir conquistándote un poquito más?</span></p>
+      </div>
+
+      <div class="letter-footer">
+        <div class="letter-sign">Con todo ✦</div>
+        <div class="letter-date">— Para la morena más bonita —</div>
+      </div>
+    </div>
+
+    <div class="letter-ending" id="letterEnding">
+      <button class="rose-btn" onclick="openGalaxy()" title="Abre la galaxia">🌹</button>
+      <p class="rose-hint">✦ Toca la rosa ✦</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ ESCENA: GALAXIA ══════ -->
+<div id="galaxy-scene">
+  <canvas id="starfield"></canvas>
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+  <div class="galaxy-core">
+    <div class="galaxy-core-glow" id="galaxyCore" onclick="showCenterNote()" style="cursor:pointer;" title="Tócame 💫"></div>
+  </div>
+  <div id="orbitRings"></div>
+  <div id="wordOrbits"></div>
+  <div class="word-tooltip" id="wordTooltip">
+    <span class="tooltip-word" id="tooltipWord"></span>
+    <p class="tooltip-meaning" id="tooltipMeaning"></p>
+  </div>
+  <button class="back-btn" id="backBtn" onclick="backToLetter()">← Volver a la carta</button>
+</div>
+
+<!-- ══════ MODAL: NOTA DEL CENTRO ══════ -->
+<div id="center-note-modal" onclick="hideCenterNote(event)">
+  <div class="center-note-card">
+    <button class="note-close" onclick="hideCenterNote()">✕</button>
+    <span class="note-star-deco">💫</span>
+    <div class="note-title">Para ti, Yaira</div>
+    <div class="note-deco-line"></div>
+    <p class="note-text">
+      Sí, espero… <span class="note-highlight">tus respuestas por interno.</span><br><br>
+      ¿Viste que sí te puedo hacer sonreír,cuando me lo propongo<br>sin tener que estar presente?<br><br>
+      <span class="note-highlight">Te mereces todo lo bonito<br>que te pueda yo brindar…</span><br><br>
+      No te pongas rara es solo un poquito de afecto. 🌹
+    </p>
+    <div class="note-deco-line"></div>
+    <div class="note-hearts">💖 ✨ 💖</div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  PARTÍCULAS DE FONDO
+// ══════════════════════════════════════
+(function() {
+  const container = document.getElementById('bgParticles');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('span');
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --d:${Math.random()*4+2}s;
+      --o:${Math.random()*0.7+0.1};
+      animation-delay:${Math.random()*5}s;
+    `;
+    container.appendChild(s);
+  }
+})();
+
+function showCenterNote() {
+  document.getElementById('center-note-modal').classList.add('active');
+}
+function hideCenterNote(e) {
+  if (!e || e.target === document.getElementById('center-note-modal')) {
+    document.getElementById('center-note-modal').classList.remove('active');
+  }
+}
+
+
+// ══════════════════════════════════════
+function openEnvelope() {
+  const wrap = document.getElementById('envelopeWrap');
+  if (wrap.classList.contains('opening')) return;
+  wrap.classList.add('opening');
+  wrap.onclick = null;
+
+  setTimeout(() => {
+    wrap.classList.add('vanish');
+    setTimeout(() => {
+      document.getElementById('envelope-scene').style.display = 'none';
+      showLetter();
+    }, 700);
+  }, 1400);
+}
+
+function showLetter() {
+  const scene = document.getElementById('letter-scene');
+  scene.style.display = 'block';
+}
+
+// ══════════════════════════════════════
+//  CARTA → GALAXIA
+// ══════════════════════════════════════
+function openGalaxy() {
+  document.getElementById('letter-scene').style.display = 'none';
+  const galaxy = document.getElementById('galaxy-scene');
+  galaxy.style.display = 'block';
+  document.getElementById('backBtn').style.display = 'block';
+  initGalaxy();
+}
+
+function backToLetter() {
+  document.getElementById('galaxy-scene').style.display = 'none';
+  document.getElementById('letter-scene').style.display = 'block';
+  document.getElementById('backBtn').style.display = 'none';
+  cancelAnimationFrame(animFrame);
+}
+
+// ══════════════════════════════════════
+//  GALAXIA
+// ══════════════════════════════════════
+
+// 50 palabras con significados
+const ORBIT_WORDS = [
+  { word: 'Inefable', emoji: '✨', color: '#e8c97a', meaning: 'Tan hermoso que las palabras no alcanzan para describirlo. Así eres tú.' },
+  { word: 'Morena', emoji: '🌹', color: '#c0506e', meaning: 'La que robó toda la atención sin siquiera intentarlo. Tú, siempre tú.' },
+  { word: 'Intención', emoji: '💫', color: '#a78bfa', meaning: 'No llegué por casualidad. Cada paso hacia ti fue con propósito.' },
+  { word: 'Efímera', emoji: '🌸', color: '#f472b6', meaning: 'Lo más bello suele durar poco... por eso hay que vivirlo bien intenso.' },
+  { word: 'Sublime', emoji: '🌌', color: '#67e8f9', meaning: 'De una belleza tan grande que despierta algo profundo en el alma.' },
+  { word: 'Quédate', emoji: '🫂', color: '#86efac', meaning: 'La palabra que más quiero que sientas cuando estés conmigo.' },
+  { word: 'Etéreo', emoji: '🌙', color: '#c4b5fd', meaning: 'Delicado, casi irreal de tan bonito. Como el efecto que me produces.' },
+  { word: 'Cómplice', emoji: '🤫', color: '#fbbf24', meaning: 'Alguien con quien compartir secretos, risas y miradas bien cargadas.' },
+  { word: 'Añoranza', emoji: '💭', color: '#fb923c', meaning: 'Ese deseo dulce de tenerte cerca cuando no estás.' },
+  { word: 'Efusiva', emoji: '💥', color: '#f87171', meaning: 'Llena de vida y energía que contagia. Así te imagino a ti.' },
+  { word: 'Singular', emoji: '🌟', color: '#e8c97a', meaning: 'Única. No hay otra igual, y eso ya lo sé sin conocerte del todo.' },
+  { word: 'Calma', emoji: '🌊', color: '#38bdf8', meaning: 'Lo que quiero ser para ti en medio de cualquier tormenta.' },
+  { word: 'Intrépida', emoji: '🦋', color: '#a3e635', meaning: 'Valiente sin saberlo. Eso se nota en ti.' },
+  { word: 'Genuina', emoji: '💎', color: '#67e8f9', meaning: 'Real, sin máscaras. Exactamente lo que más valoro en una persona.' },
+  { word: 'Horizonte', emoji: '🌅', color: '#fdba74', meaning: 'Tú representas lo que está adelante... algo que vale la pena alcanzar.' },
+  { word: 'Vértigo', emoji: '🎢', color: '#f472b6', meaning: 'Esa sensación que dan las cosas que importan de verdad.' },
+  { word: 'Latente', emoji: '❤️', color: '#f87171', meaning: 'Lo que siento por ti: presente, aunque todavía no dicho del todo.' },
+  { word: 'Encantar', emoji: '🪄', color: '#c4b5fd', meaning: 'Lo que me quiero ganar: que te encante quién soy.' },
+  { word: 'Infinita', emoji: '♾️', color: '#a78bfa', meaning: 'Así es la paciencia que tengo para conquistarte poquito a poco.' },
+  { word: 'Euforia', emoji: '🎆', color: '#fbbf24', meaning: 'Lo que quiero provocarte... que estés conmigo y no puedas evitar sonreír.' },
+  { word: 'Destino', emoji: '🌠', color: '#86efac', meaning: 'No creo en coincidencias. Creo que esto tiene algún propósito.' },
+  { word: 'Dulzura', emoji: '🍯', color: '#fde68a', meaning: 'Algo en tu forma de ser que no se fuerza. Sale solo, natural.' },
+  { word: 'Presencia', emoji: '🕯️', color: '#fca5a5', meaning: 'Cuando llegas, se nota. No hace falta que hables para sentirte.' },
+  { word: 'Serendipia', emoji: '🎲', color: '#6ee7b7', meaning: 'Encontrar algo bello sin buscarlo. Eso fue conocerte.' },
+  { word: 'Delicada', emoji: '🌷', color: '#f9a8d4', meaning: 'Con esa suavidad que no todos tienen la suerte de notar.' },
+  { word: 'Radiante', emoji: '☀️', color: '#fef08a', meaning: 'Hay personas que brillan por dentro y se les nota afuera. Tú eres así.' },
+  { word: 'Profunda', emoji: '🌊', color: '#7dd3fc', meaning: 'No eres superficial. Hay mucho más debajo de lo que muestras.' },
+  { word: 'Provocar', emoji: '🔥', color: '#fb923c', meaning: 'Lo que me haces sin darte cuenta. Esa curiosidad que me despertaste.' },
+  { word: 'Mirada', emoji: '👁️', color: '#a5f3fc', meaning: 'Esa forma de mirarte que lo dice todo sin abrir la boca.' },
+  { word: 'Hechizo', emoji: '🪄', color: '#d8b4fe', meaning: 'No sé qué tienes, pero funciona. Me tienes pensando en ti.' },
+  { word: 'Sonrisa', emoji: '😊', color: '#fde047', meaning: 'La tuya. Esa que quiero ver más seguido.' },
+  { word: 'Valentía', emoji: '🛡️', color: '#86efac', meaning: 'La que tienes sin darte cuenta, la que yo quiero proteger.' },
+  { word: 'Magia', emoji: '✨', color: '#e879f9', meaning: 'Lo que siento cuando pienso que tú también podrías sentir algo.' },
+  { word: 'Cariño', emoji: '🤍', color: '#f1f5f9', meaning: 'El tipo de sentimiento que llega tranquilo pero se queda fuerte.' },
+  { word: 'Terrenal', emoji: '🌿', color: '#86efac', meaning: 'Tan real, tan presente... no necesito fantasías cuando estás tú.' },
+  { word: 'Afinidad', emoji: '🔗', color: '#93c5fd', meaning: 'Esa conexión que no se busca, que simplemente aparece.' },
+  { word: 'Enigma', emoji: '🗝️', color: '#fbbf24', meaning: 'Tú tienes algo que me intriga. Y lo quiero descubrir despacio.' },
+  { word: 'Ternura', emoji: '🌼', color: '#fde68a', meaning: 'Ese afecto suave que no necesita palabras grandes para sentirse.' },
+  { word: 'Libre', emoji: '🕊️', color: '#e0f2fe', meaning: 'Cuidarte no es atarte. Es que vueles segura sabiendo que estoy cerca.' },
+  { word: 'Conquista', emoji: '🏹', color: '#f472b6', meaning: 'No la de poseer... la de ganarme tu confianza poquito a poquito.' },
+  { word: 'Fuego', emoji: '🔥', color: '#f97316', meaning: 'Ese que llevas dentro y que alguien como yo sabe reconocer.' },
+  { word: 'Susurro', emoji: '💬', color: '#c4b5fd', meaning: 'Así quiero hablarte a veces... bajito, como si el mundo no existiera.' },
+  { word: 'Intriga', emoji: '🌀', color: '#38bdf8', meaning: 'Lo que quiero dejarte... ganas de saber qué más hay.' },
+  { word: 'Piel', emoji: '🫶', color: '#fca5a5', meaning: 'Esa cercanía que aún no tenemos pero que ya imagino tranquila.' },
+  { word: 'Verdad', emoji: '💡', color: '#fef9c3', meaning: 'Te hablo sin rodeos. Eso que lees es real, no es cuento.' },
+  { word: 'Universo', emoji: '🌌', color: '#818cf8', meaning: 'Porque hay algo en ti que se siente grande... demasiado para ignorar.' },
+  { word: 'Brillo', emoji: '💛', color: '#fde047', meaning: 'El tuyo. Ese que no depende de nadie más para existir.' },
+  { word: 'Capricho', emoji: '🎀', color: '#f9a8d4', meaning: 'Ojalá me dejes ser tu capricho favorito algún día.' },
+  { word: 'Secreto', emoji: '🤐', color: '#a78bfa', meaning: 'El que aún no me has contado... y que ya quiero saber.' },
+  { word: 'Despertar', emoji: '🌄', color: '#fdba74', meaning: 'Lo que quiero ser para ti... algo que te haga sentir viva.' },
+  { word: 'Beso', emoji: '💋', color: '#fb7185', meaning: 'Ese que no se pide... se gana. Y yo sigo en eso, morena.' },
+];
+
+// Distribuir palabras en 5 órbitas
+const ORBIT_CONFIG = [
+  { radius: 130, count: 8,  speed: 0.00050, tilt:  0  },
+  { radius: 220, count: 10, speed: 0.00032, tilt:  18 },
+  { radius: 310, count: 12, speed: 0.00020, tilt: -12 },
+  { radius: 400, count: 12, speed: 0.00013, tilt:  8  },
+  { radius: 490, count: 8,  speed: 0.00008, tilt: -6  },
+];
+
+let wordAngles = [];
+let animFrame;
+let isGalaxyInit = false;
+
+function initGalaxy() {
+  if (isGalaxyInit) { startOrbitAnimation(); return; }
+  isGalaxyInit = true;
+
+  // Canvas estrellas
+  initStarfield();
+
+  // Órbitas decorativas
+  const ringContainer = document.getElementById('orbitRings');
+  ORBIT_CONFIG.forEach(cfg => {
+    const ring = document.createElement('div');
+    ring.className = 'orbit-ring';
+    const d = cfg.radius * 2;
+    ring.style.cssText = `width:${d}px;height:${d}px;margin-left:${-cfg.radius}px;margin-top:${-cfg.radius}px;transform:translate(0,0) rotateX(${cfg.tilt}deg);`;
+    ringContainer.appendChild(ring);
+  });
+
+  // Crear elementos de palabras
+  const container = document.getElementById('wordOrbits');
+  wordAngles = [];
+  let wordIdx = 0;
+
+  ORBIT_CONFIG.forEach((cfg, orbitIdx) => {
+    const angleStep = (Math.PI * 2) / cfg.count;
+    for (let i = 0; i < cfg.count; i++) {
+      const data = ORBIT_WORDS[wordIdx];
+      const startAngle = angleStep * i;
+      wordAngles.push({
+        angle: startAngle,
+        radius: cfg.radius,
+        speed: cfg.speed * (orbitIdx % 2 === 0 ? 1 : -1),
+        tilt: cfg.tilt,
+        wordData: data,
+      });
+
+      const el = document.createElement('div');
+      el.className = 'orbit-word';
+      el.id = `word-${wordIdx}`;
+      const span = document.createElement('span');
+      span.textContent = data.emoji + ' ' + data.word;
+      span.style.color = data.color;
+      span.style.borderColor = data.color + '80';
+      span.style.fontSize = `${0.75 + Math.random() * 0.25}rem`;
+      el.appendChild(span);
+
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showWordMeaning(data, e.clientX, e.clientY);
+      });
+
+      container.appendChild(el);
+      wordIdx++;
+    }
+  });
+
+  // Partículas galaxia
+  addGalaxyParticles();
+
+  // Shooting stars
+  startShootingStars();
+
+  startOrbitAnimation();
+}
+
+function startOrbitAnimation() {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+
+  let last = null;
+  function animate(ts) {
+    if (!last) last = ts;
+    const dt = ts - last;
+    last = ts;
+
+    wordAngles.forEach((w, i) => {
+      w.angle += w.speed * dt;
+      const tiltRad = w.tilt * Math.PI / 180;
+      const x = Math.cos(w.angle) * w.radius;
+      const y = Math.sin(w.angle) * w.radius * Math.cos(tiltRad);
+      const z = Math.sin(w.angle) * Math.sin(tiltRad);
+      const scale = 0.7 + (z + w.radius) / (w.radius * 2) * 0.6;
+
+      const el = document.getElementById(`word-${i}`);
+      if (el) {
+        el.style.transform = `translate(${cx + x - 50}px, ${cy + y - 15}px) scale(${scale})`;
+        el.style.opacity = 0.6 + scale * 0.4;
+        el.style.zIndex = Math.round(z * 10) + 10;
+      }
+    });
+
+    animFrame = requestAnimationFrame(animate);
+  }
+  animFrame = requestAnimationFrame(animate);
+}
+
+// Tooltip de significado
+function showWordMeaning(data, mx, my) {
+  const tooltip = document.getElementById('wordTooltip');
+  document.getElementById('tooltipWord').textContent = data.emoji + ' ' + data.word;
+  document.getElementById('tooltipMeaning').textContent = data.meaning;
+  tooltip.style.color = data.color;
+  document.getElementById('tooltipWord').style.color = data.color;
+
+  // Posicionar
+  const W = window.innerWidth, H = window.innerHeight;
+  let left = mx + 16, top = my - 10;
+  if (left + 300 > W) left = mx - 300 - 16;
+  if (top + 160 > H) top = H - 170;
+  tooltip.style.left = left + 'px';
+  tooltip.style.top = top + 'px';
+
+  tooltip.classList.add('active');
+  clearTimeout(tooltip._t);
+  tooltip._t = setTimeout(() => tooltip.classList.remove('active'), 3500);
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.orbit-word')) {
+    document.getElementById('wordTooltip').classList.remove('active');
+  }
+});
+
+// ══ STARFIELD CANVAS ══
+function initStarfield() {
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const stars = [];
+  for (let i = 0; i < 400; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.8 + 0.2,
+      alpha: Math.random() * 0.7 + 0.1,
+      speed: Math.random() * 0.008 + 0.002,
+      phase: Math.random() * Math.PI * 2,
+    });
+  }
+
+  function drawStars(ts) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.phase += s.speed;
+      const a = s.alpha * (0.6 + 0.4 * Math.sin(s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${a})`;
+      ctx.fill();
+    });
+
+    // Galaxia espiral sutil
+    const cx = canvas.width / 2, cy = canvas.height / 2;
+    const time = ts * 0.00008;
+    for (let arm = 0; arm < 3; arm++) {
+      for (let t = 0; t < 400; t++) {
+        const angle = t * 0.05 + arm * (Math.PI * 2 / 3) + time;
+        const r = t * 0.8;
+        const x = cx + Math.cos(angle) * r;
+        const y = cy + Math.sin(angle) * r * 0.5;
+        const alpha = Math.max(0, 0.25 - t / 1800);
+        if (alpha <= 0) continue;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200,160,255,${alpha})`;
+        ctx.fill();
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+  requestAnimationFrame(drawStars);
+}
+
+// ══ SHOOTING STARS ══
+function startShootingStars() {
+  function createShootingStar() {
+    if (document.getElementById('galaxy-scene').style.display === 'none') return;
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+    const startX = Math.random() * window.innerWidth * 0.8;
+    const startY = Math.random() * window.innerHeight * 0.4;
+    const length = Math.random() * 150 + 80;
+    const duration = Math.random() * 600 + 400;
+    star.style.cssText = `
+      left:${startX}px; top:${startY}px;
+      width:${length}px;
+      transform: rotate(${Math.random() * 30 + 10}deg);
+      animation: shoot ${duration}ms ease-out forwards;
+    `;
+    const style = document.createElement('style');
+    const id = 'ss' + Date.now();
+    star.id = id;
+    style.textContent = `@keyframes shoot {
+      0% { opacity:0; transform: rotate(20deg) translateX(0); }
+      10% { opacity:1; }
+      100% { opacity:0; transform: rotate(20deg) translateX(${length*2}px); }
+    }`;
+    document.head.appendChild(style);
+    document.getElementById('galaxy-scene').appendChild(star);
+    setTimeout(() => { star.remove(); style.remove(); }, duration + 100);
+    setTimeout(createShootingStar, Math.random() * 3000 + 1500);
+  }
+  setTimeout(createShootingStar, 800);
+}
+
+// ══ PARTÍCULAS GALAXIA ══
+function addGalaxyParticles() {
+  const scene = document.getElementById('galaxy-scene');
+  const colors = ['#c0506e','#c9a84c','#9b59b6','#3498db','#e74c3c'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'galaxy-particle';
+    const size = Math.random() * 4 + 1;
+    const tx = (Math.random() - 0.5) * 60;
+    const ty = (Math.random() - 0.5) * 60;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      --dur:${Math.random()*6+4}s;
+      --op:${Math.random()*0.4+0.1};
+      --tx:${tx}px; --ty:${ty}px;
+      animation-delay:${Math.random()*4}s;
+    `;
+    scene.appendChild(p);
+  }
+}
+</script>
+</body>
+</html>
